@@ -12,7 +12,6 @@ const Home = ()=>{
             try{
                 const res =  await axios.get(`${process.env.REACT_APP_FUNCTION_URI}/screams`);
                 setScreams(res.data);
-                console.log(res.data)
             }catch(err){
                 console.log(err)
                 err.response && err.response.status === 404 && setScreams([]);

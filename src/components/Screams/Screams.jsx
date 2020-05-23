@@ -1,5 +1,6 @@
 import React from "react";
 
+// Component
 import ScreamsItem from "./ScreamsItem";
 
 const Screams = ({screams})=>{
