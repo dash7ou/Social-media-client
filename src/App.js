@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router , Route, Switch , Redirect } from "react-router-dom";
 
-import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 
 import Navbar from "./shared/components/Navbar"
