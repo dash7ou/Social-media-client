@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import { Link } from "react-router-dom";
 
 // MUI
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -9,6 +10,8 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Alert from "@material-ui/lab/Alert";
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 const styles = {
 	form: {
@@ -24,7 +27,7 @@ const styles = {
 		margin: '10px auto'
 	},
 	button: {
-		marginTop: 20
+		marginTop: 10
 	}
 };
 
@@ -111,9 +114,11 @@ const Login = ({ classes: { form, pageTitle, image, textField, button } }) => {
 						helperText={errors.password}
 						error={errors.password ? true : false}
 					/>
-					<Button type='submit' variant='contained' color='primary' className={button}>
-						Login
-					</Button>
+					<Button type='submit' variant='contained' color='primary' className={button} disabled={loading}>
+						{ loading ? <CircularProgress size={30}/> : 'Login'}
+                    </Button>
+                    <br/>
+                    <small>Don't have an account ? sign up <Link to="/signup">here</Link></small>
 				</form>
 			</Grid>
 			<Grid item sm />
