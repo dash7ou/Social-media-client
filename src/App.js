@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router , Route, Switch , Redirect } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 
 // redux
 import { Provider } from "react-redux"
 import store from "./store";
+import { getUserData , logout } from "./actions/user"
 
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
@@ -36,16 +37,14 @@ const theme = createMuiTheme({
 
 
 const App = ()=>{
-  const [ authenticated , setAuth ] = useState(false)
   useEffect(()=>{
     const token = localStorage.fbToken;
     if(token){
       const decodedToken = jwtDecode(token);
       if(decodedToken.exp *1000 < Date.now()){
-        window.location.href= "/login";
-        setAuth(false)
+        store.dispatch(logout())
       }else{
-        setAuth(true)
+        store.dispatch(getUserData)
       }
     }
   }, [])
@@ -58,8 +57,8 @@ const App = ()=>{
             <div className="container">
               <Switch>
                 <Route exact path="/" component={Home} />
-                <AuthRoute exact path="/signup" component={Signup} authenticated={authenticated}/>
-                <AuthRoute exact path="/login" component={Login} authenticated={authenticated}/>
+                <AuthRoute exact path="/signup" component={Signup} />
+                <AuthRoute exact path="/login" component={Login} />
                 <Redirect to="/"/>
               </Switch>
             </div>

@@ -43,15 +43,7 @@ const Signup = ({ classes: { form, pageTitle, image, textField, button }, signup
         confirmPassword: '',
         handle: ''
 	});
-	const history = useHistory()
-
-	// const [ loading, setLoading ] = useState(false);
-	// const [ errors, setErrors ] = useState({
-	// 	email: '',
-    //     password: '',
-    //     confirmPassword: "",
-    //     handle: ""
-	// });
+	const history = useHistory();
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();

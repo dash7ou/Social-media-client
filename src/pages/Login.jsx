@@ -39,11 +39,6 @@ const Login = ({ classes: { form, pageTitle, image, textField, button }, user, l
 		email: '',
 		password: ''
 	});
-	// const [ loading, setLoading ] = useState(false);
-	// const [ errors, setErrors ] = useState({
-	// 	email: '',
-	// 	password: ''
-	// });
 	const history = useHistory()
 
 	const handleSubmit = async (e) => {
