@@ -68,6 +68,7 @@ const Signup = ({ classes: { form, pageTitle, image, textField, button } }) => {
                 general: ""
             });
 			const res = await axios.post(`${process.env.REACT_APP_FUNCTION_URI}/users/signup`, formData);
+			localStorage.setItem("fbToken", `Bearer ${res.data.token}`);
 		} catch (err) {
 			if (err.response.data.error.startsWith('email')) {
 				setErrors({

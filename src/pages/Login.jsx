@@ -47,6 +47,7 @@ const Login = ({ classes: { form, pageTitle, image, textField, button } }) => {
 		setLoading(true);
 		try {
 			const res = await axios.post(`${process.env.REACT_APP_FUNCTION_URI}/users/login`, formData);
+			localStorage.setItem("fbToken", `Bearer ${res.data.token}`);
 		} catch (err) {
 			if (err.response.data.error.startsWith('email')) {
 				setErrors({
@@ -77,7 +78,6 @@ const Login = ({ classes: { form, pageTitle, image, textField, button } }) => {
 		});
 	};
 
-	console.log(errors);
 
 	return (
 		<Grid container className={form}>
