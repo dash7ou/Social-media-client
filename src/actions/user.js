@@ -5,7 +5,8 @@ import {
     SET_ERRORS,
     CLEAR_ERRORS,
     LOADING_UI,
-    SET_UNAUTH
+    SET_UNAUTH,
+    LOADING_USER
 } from "./types";
 
 export const login = (userData, history)=> async dispatch =>{
@@ -39,6 +40,7 @@ export const login = (userData, history)=> async dispatch =>{
 
 
 export const getUserData = ()=> async dispatch =>{
+    dispatch({ type: LOADING_USER })
     let res;
     try{
         res = await axios.get(`${process.env.REACT_APP_FUNCTION_URI}/users/me`);

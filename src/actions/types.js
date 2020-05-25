@@ -4,3 +4,4 @@ export const CLEAR_ERRORS = "CLEAR_ERRORS";
 export const LOADING_UI = "LOADING_UI";
 export const SET_AUTH = "SET_AUTH";
 export const SET_UNAUTH = "SET_UNAUTH";
+export const LOADING_USER = 'LOADING_USER';
