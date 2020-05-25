@@ -14,18 +14,18 @@ export default (state = initialState, action)=>{
     switch(action.type){
         case SET_AUTH:
             return{
-                ...initialState,
+                ...state,
                 authenticated: true
             }
         case SET_UNAUTH:
             return initialState
         case SET_USER:
             return{
-                ...initialState,
+                ...state,
                 authenticated: true,
                 user: action.payload
             }
         default:
-            return initialState
+            return state
     }
 }

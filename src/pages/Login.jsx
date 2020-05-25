@@ -34,16 +34,16 @@ const styles = {
 	}
 };
 
-const Login = ({ classes: { form, pageTitle, image, textField, button }, user, login }) => {
+const Login = ({ classes: { form, pageTitle, image, textField, button }, user, login, ui: {errors, loading} }) => {
 	const [ formData, setFormData ] = useState({
 		email: '',
 		password: ''
 	});
-	const [ loading, setLoading ] = useState(false);
-	const [ errors, setErrors ] = useState({
-		email: '',
-		password: ''
-	});
+	// const [ loading, setLoading ] = useState(false);
+	// const [ errors, setErrors ] = useState({
+	// 	email: '',
+	// 	password: ''
+	// });
 	const history = useHistory()
 
 	const handleSubmit = async (e) => {
@@ -70,7 +70,7 @@ const Login = ({ classes: { form, pageTitle, image, textField, button }, user, l
 					{' '}
 					Login{' '}
                 </Typography>
-                {errors.general && <Alert severity="error">{errors.general}</Alert>}
+                {errors && errors.general && <Alert severity="error">{errors.general}</Alert>}
 				<form noValidate onSubmit={handleSubmit}>
 					<TextField
 						id='email'
@@ -81,8 +81,8 @@ const Login = ({ classes: { form, pageTitle, image, textField, button }, user, l
 						onChange={handleChange}
 						className={textField}
 						fullWidth
-						helperText={errors.email}
-						error={errors.email ? true : false}
+						helperText={errors && errors.email}
+						error={ errors && errors.email ? true : false}
 					/>
 					<TextField
 						id='password'
@@ -93,8 +93,8 @@ const Login = ({ classes: { form, pageTitle, image, textField, button }, user, l
 						onChange={handleChange}
 						className={textField}
 						fullWidth
-						helperText={errors.password}
-						error={errors.password ? true : false}
+						helperText={ errors && errors.password}
+						error={errors && errors.password ? true : false}
 					/>
 					<Button type='submit' variant='contained' color='primary' className={button} disabled={loading}>
 						{ loading ? <CircularProgress size={30}/> : 'Login'}
@@ -112,10 +112,12 @@ Login.propTypes = {
 	classes: PropTypes.object.isRequired,
 	login: PropTypes.func.isRequired,
 	user: PropTypes.object.isRequired,
+	ui: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state =>({
-	user: state.user
+	user: state.user,
+	ui: state.ui
 })
 
 export default connect(mapStateToProps, {

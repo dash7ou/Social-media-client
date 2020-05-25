@@ -8,9 +8,9 @@ import {
 } from "./types";
 
 export const login = (userData, history)=> async dispatch =>{
-    // setLoading(true);
     dispatch( {
-        type: LOADING_UI
+        type: LOADING_UI,
+        payload: true
     });
 
     try {
@@ -18,15 +18,21 @@ export const login = (userData, history)=> async dispatch =>{
         axios.defaults.headers['Authorization'] = `Bearer ${res.data.token}`;
         localStorage.setItem("fbToken", `Bearer ${res.data.token}`);
     } catch (err) {
-        return dispatch({
+        dispatch({
             type: SET_ERRORS,
             payload: err.response.data.error
         })
-        // return setLoading(false);
+        return dispatch( {
+            type: LOADING_UI,
+            payload: false
+        });
     }
     dispatch(getUserData());
     dispatch({ type: CLEAR_ERRORS})
-    // setLoading(false);
+    dispatch( {
+        type: LOADING_UI,
+        payload: false
+    });
     dispatch( {
         type: LOADING_UI
     });
@@ -47,24 +53,3 @@ export const getUserData = ()=> async dispatch =>{
     })
 
 }
-
-
-
-///
-// if (err.response.data.error.startsWith('email')) {
-//     setErrors({
-//         ...errors,
-//         email: err.response.data.error
-//     });
-// } else if (err.response.data.error.startsWith('password')) {
-//     setErrors({
-//         ...errors,
-//         password: err.response.data.error
-//     });
-// } else {
-//     setErrors({
-//         email: '',
-//         password: '',
-//         general: err.response.data.error
-//     });
-// }
