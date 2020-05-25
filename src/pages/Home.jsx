@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Profiler } from "react";
 import axios from "axios";
 
 import Grid from "@material-ui/core/Grid";
 
 import Screams from "../components/Screams/Screams";
+import Profile from "../components/Profile/Profile"
 
 const Home = ()=>{
     const [screams , setScreams ] = useState(null)
@@ -26,7 +27,7 @@ const Home = ()=>{
                 {screams ? (screams.length > 0 ? (<Screams screams={screams}/>): (<p>No screams until now.</p>)) : (<p>Loading..</p>)}
             </Grid>
             <Grid item sm={4} xs={12}>
-                <p>Profile...</p>
+                <Profile />
             </Grid>
         </Grid>
     )
