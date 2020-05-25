@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router , Route, Switch , Redirect } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 
+// redux
+import { Provider } from "react-redux"
+import store from "./store";
+
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 
@@ -48,7 +52,7 @@ const App = ()=>{
 
   return (
     <MuiThemeProvider theme={theme}>
-      <div className="app">
+    <Provider store={store}>
         <Router>
           <Navbar />
             <div className="container">
@@ -60,7 +64,7 @@ const App = ()=>{
               </Switch>
             </div>
         </Router>
-      </div>
+      </Provider>
     </MuiThemeProvider>
   )
 }
