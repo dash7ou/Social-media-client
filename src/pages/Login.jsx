@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+
+//redux
+import { connect } from "react-redux"
+import { login } from "../actions/user"
 
 // MUI
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -31,7 +34,7 @@ const styles = {
 	}
 };
 
-const Login = ({ classes: { form, pageTitle, image, textField, button } }) => {
+const Login = ({ classes: { form, pageTitle, image, textField, button }, user, login }) => {
 	const [ formData, setFormData ] = useState({
 		email: '',
 		password: ''
@@ -41,34 +44,13 @@ const Login = ({ classes: { form, pageTitle, image, textField, button } }) => {
 		email: '',
 		password: ''
 	});
+	const history = useHistory()
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		setLoading(true);
-		try {
-			const res = await axios.post(`${process.env.REACT_APP_FUNCTION_URI}/users/login`, formData);
-			localStorage.setItem("fbToken", `Bearer ${res.data.token}`);
-		} catch (err) {
-			if (err.response.data.error.startsWith('email')) {
-				setErrors({
-					...errors,
-					email: err.response.data.error
-				});
-			} else if (err.response.data.error.startsWith('password')) {
-				setErrors({
-					...errors,
-					password: err.response.data.error
-				});
-			} else {
-				setErrors({
-					email: '',
-					password: '',
-					general: err.response.data.error
-				});
-			}
-			return setLoading(false);
-		}
-		setLoading(false);
+		try{
+			await login( formData , history);
+		}catch(err){}
 	};
 
 	const handleChange = (e) => {
@@ -127,7 +109,15 @@ const Login = ({ classes: { form, pageTitle, image, textField, button } }) => {
 };
 
 Login.propTypes = {
-	classes: PropTypes.object.isRequired
+	classes: PropTypes.object.isRequired,
+	login: PropTypes.func.isRequired,
+	user: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Login);
+const mapStateToProps = state =>({
+	user: state.user
+})
+
+export default connect(mapStateToProps, {
+	login
+})(withStyles(styles)(Login));
