@@ -28,6 +28,17 @@ export default (state = initialSate,action)=>{
                         password: action.payload
                     }
                 }
+            }
+            else if(action.payload.startsWith("confirm")){
+                return {
+                    ...state,
+                    errors: {
+                        ...initialSate.errors,
+                        password: "Password Not Matched",
+                        confirmPassword: "Password Not Matched"
+                    }
+                }
+            
             } else {
                 return {
                     ...state,
