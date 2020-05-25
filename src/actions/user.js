@@ -54,18 +54,18 @@ export const getUserData = ()=> async dispatch =>{
 
 
 export const signup = (userData, history) => async dispatch =>{
-    dispatch( {
-        type: LOADING_UI,
-        payload: true
-    });
-
     try {
         if(userData.password !== userData.confirmPassword){
             return dispatch({
                 type: SET_ERRORS,
                 payload: "confirm password problem"
             })
-        } 
+        }
+        dispatch( {
+            type: LOADING_UI,
+            payload: true
+        });
+        
         const res = await axios.post(`${process.env.REACT_APP_FUNCTION_URI}/users/signup`, userData);
         axios.defaults.headers['Authorization'] = `Bearer ${res.data.token}`;
         localStorage.setItem("fbToken", `Bearer ${res.data.token}`);

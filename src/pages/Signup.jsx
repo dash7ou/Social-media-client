@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+
+// redux
+import { connect } from "react-redux";
+import { signup } from "../actions/user"
 
 // MUI
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -11,6 +14,8 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Alert from "@material-ui/lab/Alert";
 import CircularProgress from '@material-ui/core/CircularProgress';
+
+
 
 
 const styles = {
@@ -31,66 +36,28 @@ const styles = {
 	}
 };
 
-const Signup = ({ classes: { form, pageTitle, image, textField, button } }) => {
+const Signup = ({ classes: { form, pageTitle, image, textField, button }, signup, ui: {loading , errors} }) => {
 	const [ formData, setFormData ] = useState({
 		email: '',
         password: '',
         confirmPassword: '',
         handle: ''
 	});
-	const [ loading, setLoading ] = useState(false);
-	const [ errors, setErrors ] = useState({
-		email: '',
-        password: '',
-        confirmPassword: "",
-        handle: ""
-	});
+	const history = useHistory()
+
+	// const [ loading, setLoading ] = useState(false);
+	// const [ errors, setErrors ] = useState({
+	// 	email: '',
+    //     password: '',
+    //     confirmPassword: "",
+    //     handle: ""
+	// });
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-        setLoading(true);
-        
-        if(formData.password !== formData.confirmPassword){
-            setErrors({
-                email: '',
-                handle: '',
-                confirmPassword: "Feild Not Match",
-                password: "Feild Not Match",
-            });
-            return setLoading(false);
-        }
-		try {
-            setErrors({
-                email: '',
-                password: '',
-                confirmPassword: "",
-                handle: "",
-                general: ""
-            });
-			const res = await axios.post(`${process.env.REACT_APP_FUNCTION_URI}/users/signup`, formData);
-			localStorage.setItem("fbToken", `Bearer ${res.data.token}`);
-		} catch (err) {
-			if (err.response.data.error.startsWith('email')) {
-				setErrors({
-                    password: '',
-                    confirmPassword: "",
-                    handle: "",
-					email: err.response.data.error
-                });
-                return setLoading(false);
-                
-			}else {
-				setErrors({
-					email: '',
-                    password: '',
-                    confirmPassword: "",
-                    handle: "",
-					general: err.response.data.error
-				});
-                return setLoading(false);
-			}
-		}
-		setLoading(false);
+        try{
+			signup(formData,history)
+		}catch(err){}
 	};
 
 	const handleChange = (e) => {
@@ -100,7 +67,6 @@ const Signup = ({ classes: { form, pageTitle, image, textField, button } }) => {
 		});
 	};
 
-	console.log(errors);
 
 	return (
 		<Grid container className={form}>
@@ -111,7 +77,7 @@ const Signup = ({ classes: { form, pageTitle, image, textField, button } }) => {
 					{' '}
 					Login{' '}
                 </Typography>
-                {errors.general && <Alert severity="error">{errors.general}</Alert>}
+                {errors && errors.general && <Alert severity="error">{errors.general}</Alert>}
 				<form noValidate onSubmit={handleSubmit}>
 					<TextField
 						id='email'
@@ -122,8 +88,8 @@ const Signup = ({ classes: { form, pageTitle, image, textField, button } }) => {
 						onChange={handleChange}
 						className={textField}
 						fullWidth
-						helperText={errors.email}
-						error={errors.email ? true : false}
+						helperText={errors &&  errors.email}
+						error={errors &&  errors.email ? true : false}
 					/>
 					<TextField
 						id='password'
@@ -134,8 +100,8 @@ const Signup = ({ classes: { form, pageTitle, image, textField, button } }) => {
 						onChange={handleChange}
 						className={textField}
 						fullWidth
-						helperText={errors.password}
-						error={errors.password ? true : false}
+						helperText={errors &&  errors.password}
+						error={errors &&  errors.password ? true : false}
                     />
                     <TextField
                         id='confirmPassword'
@@ -146,8 +112,8 @@ const Signup = ({ classes: { form, pageTitle, image, textField, button } }) => {
                         onChange={handleChange}
                         className={textField}
                         fullWidth
-                        helperText={errors.confirmPassword}
-                        error={errors.confirmPassword ? true : false}
+                        helperText={errors &&  errors.confirmPassword}
+                        error={errors &&  errors.confirmPassword ? true : false}
                     />
 
                     <TextField
@@ -159,8 +125,8 @@ const Signup = ({ classes: { form, pageTitle, image, textField, button } }) => {
                         onChange={handleChange}
                         className={textField}
                         fullWidth
-                        helperText={errors.handle}
-                        error={errors.handle ? true : false}
+                        helperText={errors &&  errors.handle}
+                        error={errors &&  errors.handle ? true : false}
                     />
 					<Button type='submit' variant='contained' color='primary' className={button} disabled={loading}>
 						{ loading ? <CircularProgress size={30}/> : 'Signup'}
@@ -175,7 +141,15 @@ const Signup = ({ classes: { form, pageTitle, image, textField, button } }) => {
 };
 
 Signup.propTypes = {
-	classes: PropTypes.object.isRequired
+	classes: PropTypes.object.isRequired,
+	signup: PropTypes.func.isRequired,
+	ui: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Signup);
+const mapStateToProps = state =>({
+	ui: state.ui
+})
+
+export default connect(mapStateToProps, {
+	signup
+})(withStyles(styles)(Signup));
