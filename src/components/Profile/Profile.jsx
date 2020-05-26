@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 
+import EditDetails from "./EditDetails";
+
 // redux
 import { connect } from 'react-redux';
 import {
@@ -134,6 +136,7 @@ const Profile = ({ classes, user: { user: userData, loading, authenticated }, lo
 							<Keyboard color="primary" />
 						</IconButton>
 				</Tooltip>
+				<EditDetails />
 			</div>
 		</Paper>
 	) : (
