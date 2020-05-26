@@ -70,32 +70,40 @@ const Profile = ({ classes, user: { user: userData, loading, authenticated } }) 
 			<div className={classes.profile}>
 				<div className='image-wrapper'>
 					<img src={userData.credentials.imageUrl} alt='photoProfile' className='profile-image' />
-				</div>
-			</div>
-			<hr />
-			<div className='profile-details'>
-				<MuiLink component={Link} to={`/users/${userData.credentials.handle}`} color='primary' variant='h5'>
-					@{userData.credentials.handle}
-				</MuiLink>
-				<hr />
-				{userData.credentials.bio && <Typography variant='body2'>{userData.credentials.bio}</Typography>}
-				<hr />
-				{userData.credentials.location && (
-					<Fragment>
-						<LocationOn color='primary' /> <span>{userData.credentials.location}</span>
+					<hr />
+					<div className='profile-details'>
+						<MuiLink
+							component={Link}
+							to={`/users/${userData.credentials.handle}`}
+							color='primary'
+							variant='h5'
+						>
+							@{userData.credentials.handle}
+						</MuiLink>
 						<hr />
-					</Fragment>
-				)}
-				{userData.credentials.website && (
-					<Fragment>
-						<LinkIcon color='primary' />
-						<a href={userData.credentials.website} target='_blank' rel='noopener noreferrer'>
-							{userData.credentials.website}
-						</a>
-					</Fragment>
-				)}
-				<CalendarToday color='primary' />
-				<span>Joined {dayjs(userData.credentials.createdAt).format('MMM YYYY')}</span>
+						{userData.credentials.bio && (
+							<Typography variant='body2'>{userData.credentials.bio}</Typography>
+						)}
+						<hr />
+						{userData.credentials.location && (
+							<Fragment>
+								<LocationOn color='primary' /> <span>{userData.credentials.location}</span>
+								<hr />
+							</Fragment>
+						)}
+						{userData.credentials.website && (
+							<Fragment>
+								<LinkIcon color='primary' />
+								<a href={userData.credentials.website} target='_blank' rel='noopener noreferrer'>
+									{userData.credentials.website}
+								</a>
+							</Fragment>
+						)}
+						<hr />
+						<CalendarToday color='primary' />
+						<span>Joined {dayjs(userData.credentials.createdAt).format('MMM YYYY')}</span>
+					</div>
+				</div>
 			</div>
 		</Paper>
 	) : (

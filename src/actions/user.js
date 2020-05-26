@@ -94,6 +94,6 @@ export const logout = ()=> dispatch =>{
     localStorage.removeItem("fbToken");
     delete axios.defaults.headers['Authorization'];
     dispatch({
-        action: SET_UNAUTH
+        type: SET_UNAUTH
     })
 }
