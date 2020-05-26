@@ -2,7 +2,9 @@ import {
     SET_USER,
     SET_UNAUTH,
     SET_AUTH,
-    LOADING_USER
+    LOADING_USER,
+    LIKE_SCREAMS,
+    UNLIKE_SCREAMS
 } from "../actions/types";
 
 const initialState = {
@@ -33,6 +35,28 @@ export default (state = initialState, action)=>{
             return {
                 ...state,
                 loading: true
+            }
+        case LIKE_SCREAMS:
+            return{
+                ...state,
+                user:{
+                    ...state.user,
+                    likes:[
+                        ...state.user.likes,
+                        {
+                            userHandle: state.credentials,
+                            screamId: action.payload.screamId
+                        }
+                    ]
+                }
+            }
+        case UNLIKE_SCREAMS:
+            return{
+                ...state,
+                user:{
+                    ...state.user,
+                    likes: state.user.likes.filtter(scream => scream.screamId !== action.payload.screamId)
+                }
             }
         default:
             return state
