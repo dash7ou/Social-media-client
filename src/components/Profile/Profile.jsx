@@ -22,6 +22,7 @@ import CalendarToday from '@material-ui/icons/CalendarToday';
 import IconButton from '@material-ui/core/IconButton';
 import EditButton from '@material-ui/icons/Edit';
 import Tooltip from '@material-ui/core/Tooltip';
+import Keyboard from "@material-ui/icons/KeyboardReturn";
 
 const styles = {
 	paper: {
@@ -85,6 +86,10 @@ const Profile = ({ classes, user: { user: userData, loading, authenticated }, lo
 		fileInput.click();
 	};
 
+	const handleLogout = ()=>{
+		logout()
+	}
+
 	return !loading ? authenticated ? (
 		<Paper className={classes.paper}>
 			<div className={classes.profile}>
@@ -124,6 +129,11 @@ const Profile = ({ classes, user: { user: userData, loading, authenticated }, lo
 					<CalendarToday color='primary' />
 					<span>Joined {dayjs(userData.credentials.createdAt).format('MMM YYYY')}</span>
 				</div>
+				<Tooltip title="logout" placement="top">
+						<IconButton onClick={handleLogout} className="button">
+							<Keyboard color="primary" />
+						</IconButton>
+				</Tooltip>
 			</div>
 		</Paper>
 	) : (
