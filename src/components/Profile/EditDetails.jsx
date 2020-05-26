@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 // Redux
 import { connect } from "react-redux";
+import { editUserDetaild } from "../../actions/user"
 
 // MUI
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -12,7 +13,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle'
 import EditIcon from "@material-ui/icons/Edit";
 import TextField from "@material-ui/core/TextField";
@@ -74,7 +74,7 @@ const styles = {
 
 
 
-const EditDetails = ({ classes, credentials })=>{
+const EditDetails = ({ classes, credentials , editUserDetaild})=>{
     const [ formData, setFormData ] = useState({
         bio:"",
         website: "",
@@ -97,9 +97,12 @@ const EditDetails = ({ classes, credentials })=>{
 			[e.target.name]: e.target.value
 		});
     }
-    const handleSubmit = (e)=>{
-		e.preventDefault();
-        
+    const handleSubmit = async (e)=>{
+        e.preventDefault();
+        try{
+            await editUserDetaild(formData)
+        }catch(err){}
+        setOpenDialog(false)
     }
     return (
         <Fragment>
@@ -140,10 +143,10 @@ const EditDetails = ({ classes, credentials })=>{
                             fullWidth
                         />
                         <TextField
-                            name="locatoin"
+                            name="location"
                             type="text"
-                            label="Locatoin"
-                            placeholder="Add your location"
+                            label="location"
+                            placeholder="Add your location (at least 5 characters)"
                             className={classes.textField}
                             value={formData.location}
                             onChange={handleFormChange}
@@ -173,4 +176,6 @@ const mapStateToProps = state =>({
     credentials: state.user.user.credentials
 })
 
-export default connect( mapStateToProps )(withStyles(styles)(EditDetails));
+export default connect( mapStateToProps, {
+    editUserDetaild
+} )(withStyles(styles)(EditDetails));

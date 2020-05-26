@@ -106,3 +106,14 @@ export const uploadImage = (formData)=> async dispatch =>{
         console.log(err)
     }
 }
+
+
+export const editUserDetaild = (formData) => async dispatch =>{
+    dispatch({ type: LOADING_USER });
+    try{
+        await axios.patch(`${process.env.REACT_APP_FUNCTION_URI}/users/me`, formData);
+        dispatch(getUserData())
+    }catch(err){
+        console.log(err.response.data)
+    }
+}
