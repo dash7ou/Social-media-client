@@ -55,7 +55,7 @@ export default (state = initialState, action)=>{
                 ...state,
                 user:{
                     ...state.user,
-                    likes: state.user.likes.filtter(scream => scream.screamId !== action.payload.screamId)
+                    likes: state.user.likes.filter(scream => scream.screamId !== action.payload.screamId)
                 }
             }
         default:

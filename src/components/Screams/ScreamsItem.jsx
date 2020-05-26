@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+
+// redux
+import { connect } from "react-redux";
+import {
+    likeScream,
+    unLikeScream,
+    getScreams
+} from "../../actions/scream";
 
 // MUI
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -11,6 +19,12 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from "@material-ui/core/Typography";
+import Tooltip from '@material-ui/core/Tooltip';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import ChatIcon from "@material-ui/icons/Chat";
+import FavoritIcon from "@material-ui/icons/Favorite";
+import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 
 const styles = {
     card: {
@@ -26,8 +40,57 @@ const styles = {
     }
 }
 
-const ScreamsItem = ({ classes, scream:{ userImage, userHandle, createdAt, body } })=>{
+const ScreamsItem = ({ classes,getScreams, scream:{ screamId,likeCount, userImage, userHandle, createdAt, body, commentCount },auth, likeScream, unLikeScream, user })=>{
     dayjs.extend(relativeTime);
+    const [ isLike, setIsLike ] = useState(false)
+    
+    const isLikeScream = ()=>{
+        if(user && user.likes && user.likes.map(scream => scream.screamId).includes(screamId)){
+            setIsLike(true)
+        }else{
+            setIsLike(false)
+        }
+    }
+
+    const likeScreamHandle = async ()=>{
+        try{
+            await likeScream(screamId);
+            await getScreams()
+        }catch(err){}
+    }
+
+    const unLikeScreamHandle = async ()=>{
+        try{
+            await unLikeScream(screamId);
+            await getScreams()
+        }catch(err){}
+    }
+
+    useEffect(()=>{
+        isLikeScream()
+    }, [ user ])
+
+    const likeButton = !auth ? (
+        <Tooltip title="like" placement="top">
+            <Link to="/login">
+            <IconButton className="button">
+                <FavoriteBorder color="primary" />
+            </IconButton>
+            </Link>
+        </Tooltip>
+    ) : ( isLike ? (
+        <Tooltip title="Un like" placement="top">
+            <IconButton onClick={unLikeScreamHandle} className="button">
+                <FavoritIcon color="primary" />
+            </IconButton>
+        </Tooltip>
+    ): (
+        <Tooltip title="like" placement="top">
+            <IconButton onClick={likeScreamHandle} className="button">
+                <FavoriteBorder color="primary" />
+            </IconButton>
+        </Tooltip>
+    ))
     return(
         <Card className={classes.card}>
             <CardMedia className={classes.image} image={userImage} title="profile image" />
@@ -35,9 +98,26 @@ const ScreamsItem = ({ classes, scream:{ userImage, userHandle, createdAt, body 
                 <Typography component={Link} variant="h5" to={`/users/${userHandle}`} color="primary">{userHandle}</Typography>
                 <Typography variant="body2" color="textSecondary">{dayjs(createdAt).fromNow()}</Typography>
                 <Typography variant="body1">{body}</Typography>
+                {likeButton}
+                <span>{likeCount} Likes</span>
+                <Tooltip title="Comments" placement="top">
+                    <IconButton className="button">
+                        <ChatIcon color="primary" />
+                    </IconButton>
+                </Tooltip>
+                <span>{commentCount} comments</span>
             </CardContent>
         </Card>
     )
 }
 
-export default withStyles(styles)(ScreamsItem);
+const mapStateToProps = state =>({
+    user: state.user.user,
+    auth: state.user.authenticated
+})
+
+export default connect(mapStateToProps , {
+    likeScream,
+    unLikeScream,
+    getScreams
+})(withStyles(styles)(ScreamsItem));
