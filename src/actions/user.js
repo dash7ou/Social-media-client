@@ -44,14 +44,13 @@ export const getUserData = ()=> async dispatch =>{
     let res;
     try{
         res = await axios.get(`${process.env.REACT_APP_FUNCTION_URI}/users/me`);
+        dispatch({
+            type: SET_USER,
+            payload: res.data
+        })
     }catch(err){
         console.log(err)
     }
-    dispatch({
-        type: SET_USER,
-        payload: res.data
-    })
-
 }
 
 

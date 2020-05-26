@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router , Route, Switch , Redirect } from "react-router-dom";
 import jwtDecode from "jwt-decode";
+import axios from "axios";
 
 // redux
 import { Provider } from "react-redux"
@@ -37,6 +38,7 @@ const theme = createMuiTheme({
 
 
 const App = ()=>{
+
   useEffect(()=>{
     const token = localStorage.fbToken;
     if(token){
@@ -44,7 +46,8 @@ const App = ()=>{
       if(decodedToken.exp *1000 < Date.now()){
         store.dispatch(logout())
       }else{
-        store.dispatch(getUserData)
+        axios.defaults.headers.common['Authorization'] = token;
+        store.dispatch(getUserData())
       }
     }
   }, [])
