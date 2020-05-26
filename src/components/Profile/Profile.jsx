@@ -15,6 +15,9 @@ import Typography from '@material-ui/core/Typography';
 import LocationOn from '@material-ui/icons/LocationOn';
 import LinkIcon from '@material-ui/icons/Link';
 import CalendarToday from '@material-ui/icons/CalendarToday';
+import IconButton from '@material-ui/core/IconButton';
+import EditButton from '@material-ui/icons/Edit';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const styles = {
 	paper: {
@@ -65,44 +68,52 @@ const styles = {
 };
 
 const Profile = ({ classes, user: { user: userData, loading, authenticated } }) => {
+	const handleImageChange = (event) => {
+		const image = event.target.files[0];
+	};
+	const handleEditImage = () => {
+		const fileInput = document.getElementById('imageInput');
+		fileInput.click();
+	};
+
 	return !loading ? authenticated ? (
 		<Paper className={classes.paper}>
 			<div className={classes.profile}>
 				<div className='image-wrapper'>
 					<img src={userData.credentials.imageUrl} alt='photoProfile' className='profile-image' />
+					<input type='file' id='imageInput' onChange={handleImageChange} hidden='hidden' />
+					<Tooltip title='Edit profile picture' placement='top'>
+						<IconButton onClick={handleEditImage} className='button'>
+							<EditButton color='primary' />
+						</IconButton>
+					</Tooltip>
 					<hr />
-					<div className='profile-details'>
-						<MuiLink
-							component={Link}
-							to={`/users/${userData.credentials.handle}`}
-							color='primary'
-							variant='h5'
-						>
-							@{userData.credentials.handle}
-						</MuiLink>
-						<hr />
-						{userData.credentials.bio && (
-							<Typography variant='body2'>{userData.credentials.bio}</Typography>
-						)}
-						<hr />
-						{userData.credentials.location && (
-							<Fragment>
-								<LocationOn color='primary' /> <span>{userData.credentials.location}</span>
-								<hr />
-							</Fragment>
-						)}
-						{userData.credentials.website && (
-							<Fragment>
-								<LinkIcon color='primary' />
-								<a href={userData.credentials.website} target='_blank' rel='noopener noreferrer'>
-									{userData.credentials.website}
-								</a>
-							</Fragment>
-						)}
-						<hr />
-						<CalendarToday color='primary' />
-						<span>Joined {dayjs(userData.credentials.createdAt).format('MMM YYYY')}</span>
-					</div>
+				</div>
+
+				<div className='profile-details'>
+					<MuiLink component={Link} to={`/users/${userData.credentials.handle}`} color='primary' variant='h5'>
+						@{userData.credentials.handle}
+					</MuiLink>
+					<hr />
+					{userData.credentials.bio && <Typography variant='body2'>{userData.credentials.bio}</Typography>}
+					<hr />
+					{userData.credentials.location && (
+						<Fragment>
+							<LocationOn color='primary' /> <span>{userData.credentials.location}</span>
+							<hr />
+						</Fragment>
+					)}
+					{userData.credentials.website && (
+						<Fragment>
+							<LinkIcon color='primary' />
+							<a href={userData.credentials.website} target='_blank' rel='noopener noreferrer'>
+								{userData.credentials.website}
+							</a>
+						</Fragment>
+					)}
+					<hr />
+					<CalendarToday color='primary' />
+					<span>Joined {dayjs(userData.credentials.createdAt).format('MMM YYYY')}</span>
 				</div>
 			</div>
 		</Paper>
