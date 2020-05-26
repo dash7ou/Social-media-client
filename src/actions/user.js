@@ -96,3 +96,13 @@ export const logout = ()=> dispatch =>{
         type: SET_UNAUTH
     })
 }
+
+export const uploadImage = (formData)=> async dispatch =>{
+    dispatch({ type: LOADING_USER});
+    try{
+        await axios.patch(`${process.env.REACT_APP_FUNCTION_URI}/users/uploadImage`, formData);
+        dispatch(getUserData());
+    }catch(err){
+        console.log(err)
+    }
+}

@@ -5,6 +5,10 @@ import dayjs from 'dayjs';
 
 // redux
 import { connect } from 'react-redux';
+import {
+	uploadImage,
+	logout
+} from "../../actions/user"
 
 // MUI
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -67,9 +71,14 @@ const styles = {
 	}
 };
 
-const Profile = ({ classes, user: { user: userData, loading, authenticated } }) => {
-	const handleImageChange = (event) => {
+const Profile = ({ classes, user: { user: userData, loading, authenticated }, logout, uploadImage }) => {
+	const handleImageChange = async (event) => {
 		const image = event.target.files[0];
+		const formData = new FormData();
+		formData.append('image', image, image.name);
+		try{
+			await uploadImage(formData)
+		}catch(err){}
 	};
 	const handleEditImage = () => {
 		const fileInput = document.getElementById('imageInput');
@@ -140,11 +149,16 @@ const Profile = ({ classes, user: { user: userData, loading, authenticated } }) 
 
 Profile.propTypes = {
 	user: PropTypes.object.isRequired,
-	classes: PropTypes.object.isRequired
+	classes: PropTypes.object.isRequired,
+	logout: PropTypes.func.isRequired,
+	uploadImage: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
 	user: state.user
 });
 
-export default connect(mapStateToProps)(withStyles(styles)(Profile));
+export default connect(mapStateToProps, {
+	logout,
+	uploadImage
+})(withStyles(styles)(Profile));
