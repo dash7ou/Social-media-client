@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
+//redux
+import { connect } from "react-redux";
+import {
+    getScreams
+} from "../actions/scream";
+
 import Grid from "@material-ui/core/Grid";
 
 import Screams from "../components/Screams/Screams";
 import Profile from "../components/Profile/Profile"
 
-const Home = ()=>{
-    const [screams , setScreams ] = useState(null)
+const Home = ({ getScreams, screams })=>{
     useEffect(()=>{
         const getData = async ()=>{
             try{
-                const res =  await axios.get(`${process.env.REACT_APP_FUNCTION_URI}/screams`);
-                setScreams(res.data);
-            }catch(err){
-                console.log(err)
-                err.response && err.response.status === 404 && setScreams([]);
-            }
+                await getScreams()
+            }catch(err){}
         }
        getData();
     }, []);
@@ -33,4 +34,10 @@ const Home = ()=>{
     )
 }
 
-export default Home;
+const mapStateToProps = state =>({
+    screams: state.scream.screams
+})
+
+export default connect(mapStateToProps, {
+    getScreams
+})(Home);
