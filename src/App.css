@@ -21,6 +21,10 @@ a {
   max-width: 1200px;
 }
 
+.nav-container svg {
+  color: #fff
+}
+
 .nav-container {
   margin: auto;
 }

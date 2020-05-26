@@ -69,7 +69,10 @@ const styles = {
     },
     form: {
 		textAlign: 'center'
-	}
+    },
+    button:{
+        float: "right"
+    }
 };
 
 

@@ -1,22 +1,53 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Link } from "react-router-dom"
+import { connect } from "react-redux";
 
 // MUI
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
+import AddIcon from "@material-ui/icons/Add";
+import HomeIcon from "@material-ui/icons/Home";
+import NotificationIcon from "@material-ui/icons/Notifications";
+import IconButton from '@material-ui/core/IconButton';
+import Tooltip from '@material-ui/core/Tooltip';
 
-const Navbar = ()=>{
+
+const Navbar = ({ auth })=>{    
     return (
         <AppBar>
             <Toolbar className="nav-container">
-                <Button color="inherit" component={ Link } to="/signup">SignUp</Button>
-                <Button color="inherit" component={ Link } to="/">Home</Button>
-                <Button color="inherit" component={ Link } to="/login">Login</Button>
+                { 
+                    auth && <Fragment> 
+                    <Tooltip title="Add Screams" placement="top">
+                    <IconButton className="button"> 
+                        <AddIcon color="primary" />
+                    </IconButton> 
+            </Tooltip>
+                    </Fragment>
+                } 
+                {!auth && <Button color="inherit" component={ Link } to="/signup">SignUp</Button>}
+                <Link to="/">
+                <Tooltip title="Home" placement="top">
+                    <IconButton className="button">
+                        <HomeIcon color="primary" />
+                    </IconButton>
+            </Tooltip>
+            </Link>
+                { auth && <Fragment>
+                    <Tooltip title="Notifications" placement="top">
+                    <IconButton className="button">
+                        <NotificationIcon color="primary" />
+                    </IconButton>
+            </Tooltip>
+                    </Fragment>}
+                {!auth && <Button color="inherit" component={ Link } to="/login">Login</Button>}
             </Toolbar>
         </AppBar>
     )
-}
+} 
 
-
-export default Navbar;
+const mapStateToProps = state =>({
+    auth: state.user.authenticated
+})
+export default connect(mapStateToProps)(Navbar);
