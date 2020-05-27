@@ -2,7 +2,7 @@ import React, { Fragment, useState } from "react";
 
 // redux
 import { connect } from "react-redux";
-import { postScream } from "../../actions/scream"
+import { postScream, clearErrors } from "../../actions/scream"
 
 // MUI
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -34,11 +34,16 @@ const styles = {
     }
 }
 
-const PostScream = ({ classes, ui: {loading, errors }, postScream})=>{
+const PostScream = ({ classes, ui: {loading, errors }, postScream, clearErrors})=>{
     const [ open, setOpen ] = useState(false);
     const [ body, setBody ] = useState("")
     const handleChange = (e)=>{
         setBody(e.target.value)
+    }
+
+    const closeHandle = ()=>{
+        setOpen(false)
+        clearErrors()
     }
     const handleSubmit = async (e)=>{
         e.preventDefault();
@@ -47,7 +52,7 @@ const PostScream = ({ classes, ui: {loading, errors }, postScream})=>{
         }catch(err){
             return
         }
-        setOpen(false)
+        closeHandle()
     }
 
     return (
@@ -59,11 +64,11 @@ const PostScream = ({ classes, ui: {loading, errors }, postScream})=>{
             </Tooltip>
             <Dialog
                 open={open}
-                onClose={()=>setOpen(false)}
+                onClose={closeHandle}
                 fullWidth
                 maxWidth="sm"
             >
-                <Tooltip title="Add Screams" placement="top" onClick={()=> setOpen(false)}>
+                <Tooltip title="Add Screams" placement="top" onClick={closeHandle}>
                     <IconButton className="button"> 
                         <CloseIcon color="primary" />
                     </IconButton> 
@@ -99,5 +104,6 @@ const mapStateToProps = state =>({
 })
 
 export default connect(mapStateToProps, {
-    postScream
+    postScream,
+    clearErrors
 })(withStyles(styles)(PostScream));

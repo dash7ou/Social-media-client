@@ -85,3 +85,7 @@ export const deleteScreams = id => async dispatch =>{
         console.log(err)
     }
 }
+
+export const clearErrors = _ => dispatch =>{
+    dispatch({ type: CLEAR_ERRORS })
+}
