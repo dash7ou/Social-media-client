@@ -11,4 +11,5 @@ export const SET_SCREAMS = 'SET_SCREAMS';
 export const LOADING_SCREAMS = 'LOADING_SCREAMS'; 
 export const LIKE_SCREAMS = 'LIKE_SCREAMS'; 
 export const UNLIKE_SCREAMS = 'UNLIKE_SCREAMS';
-export const DELETE_SCREAM = 'DELETE_SCREAM';  
+export const DELETE_SCREAM = 'DELETE_SCREAM';
+export const POST_SCREAM = 'POST_SCREAM';
