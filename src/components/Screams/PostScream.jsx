@@ -22,7 +22,9 @@ const styles = {
 		margin: '10px auto'
 	},
 	button: {
-		margin: "auto"
+        position: "relative",
+        float: "right",
+        margin: "10px 0"
     },
     closeButton:{
         position: "absolute",
