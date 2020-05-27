@@ -40,7 +40,7 @@ const styles = {
     }
 }
 
-const ScreamsItem = ({ classes,getScreams, scream:{ screamId,likeCount, userImage, userHandle, createdAt, body, commentCount },auth, likeScream, unLikeScream, user })=>{
+const ScreamsItem = ({ classes,getScreams,scream, scream:{ screamId,likeCount, userImage, userHandle, createdAt, body, commentCount },auth, likeScream, unLikeScream, user })=>{
     dayjs.extend(relativeTime);
     const [ isLike, setIsLike ] = useState(false)
     
@@ -68,7 +68,7 @@ const ScreamsItem = ({ classes,getScreams, scream:{ screamId,likeCount, userImag
 
     useEffect(()=>{
         isLikeScream()
-    }, [ user ])
+    }, [ scream ])
 
     const likeButton = !auth ? (
         <Tooltip title="like" placement="top">

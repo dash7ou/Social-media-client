@@ -31,7 +31,10 @@ export const getScreams = _ => async dispatch =>{
 export const postScream = data => async dispatch =>{
     dispatch({ type: LOADING_UI });
     try{
-        const res = await axios.post('/screams', data);
+        if(!data.body){
+            throw new Error("Body must not be empty");
+        }
+        const res = await axios.post(`${process.env.REACT_APP_FUNCTION_URI}/screams`, data);
         dispatch({
             type: POST_SCREAM,
             payload: res.data
@@ -40,8 +43,9 @@ export const postScream = data => async dispatch =>{
     }catch(err){
         dispatch({
            type: SET_ERRORS,
-           payload: err.response.data.error
-        })
+           payload: err.response ? err.response.data.error : err.message
+        });
+        throw new Error("Body must not be empty");
     }
 
 }

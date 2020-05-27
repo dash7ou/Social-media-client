@@ -2,6 +2,8 @@ import React, { Fragment } from "react";
 import { Link } from "react-router-dom"
 import { connect } from "react-redux";
 
+import PostScream from "../../components/Screams/PostScream"
+
 // MUI
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -17,30 +19,23 @@ const Navbar = ({ auth })=>{
     return (
         <AppBar>
             <Toolbar className="nav-container">
-                { 
-                    auth && <Fragment> 
-                    <Tooltip title="Add Screams" placement="top">
-                    <IconButton className="button"> 
-                        <AddIcon color="primary" />
-                    </IconButton> 
-            </Tooltip>
-                    </Fragment>
-                } 
+                { auth && <PostScream /> } 
                 {!auth && <Button color="inherit" component={ Link } to="/signup">SignUp</Button>}
                 <Link to="/">
-                <Tooltip title="Home" placement="top">
-                    <IconButton className="button">
-                        <HomeIcon color="primary" />
-                    </IconButton>
-            </Tooltip>
-            </Link>
+                    <Tooltip title="Home" placement="top">
+                        <IconButton className="button">
+                            <HomeIcon color="primary" />
+                        </IconButton>
+                    </Tooltip>
+                </Link>
                 { auth && <Fragment>
-                    <Tooltip title="Notifications" placement="top">
-                    <IconButton className="button">
-                        <NotificationIcon color="primary" />
-                    </IconButton>
-            </Tooltip>
-                    </Fragment>}
+                        <Tooltip title="Notifications" placement="top">
+                            <IconButton className="button">
+                                <NotificationIcon color="primary" />
+                            </IconButton>
+                        </Tooltip>
+                    </Fragment>
+                }
                 {!auth && <Button color="inherit" component={ Link } to="/login">Login</Button>}
             </Toolbar>
         </AppBar>

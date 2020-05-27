@@ -3,7 +3,8 @@ import {
     LOADING_SCREAMS,
     LIKE_SCREAMS,
     UNLIKE_SCREAMS,
-    DELETE_SCREAM
+    DELETE_SCREAM,
+    POST_SCREAM
 } from "../actions/types";
 
 const initialState = {
@@ -36,6 +37,15 @@ export default (state = initialState , action)=>{
             return{
                 ...state,
                 screams: state.screams.filter(scream => scream.screamId !== action.payload)
+            }
+        case POST_SCREAM:
+            return{
+                ...state,
+                screams:[
+                    {...action.payload},
+                    ...state.screams
+                ]
+
             }
         default:
             return state
