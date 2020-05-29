@@ -101,7 +101,7 @@ export const unLikeScream = id => async dispatch =>{
 
 export const deleteScreams = id => async dispatch =>{
     try{
-        const res = await axios.delete(`${process.env.REACT_APP_FUNCTION_URI}/screams/${id}`);
+        await axios.delete(`${process.env.REACT_APP_FUNCTION_URI}/screams/${id}`);
         dispatch({
             type: DELETE_SCREAM,
             payload: id
