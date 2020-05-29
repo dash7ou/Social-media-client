@@ -9,7 +9,8 @@ import {
     POST_SCREAM,
     SET_ERRORS,
     CLEAR_ERRORS,
-    SET_SCREAM
+    SET_SCREAM,
+    SUBMIT_COMMENT
 } from "./types";
 
 

@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 
 import LikeScream from "./LikeScream";
 import Comments from "./Comments";
+import AddComment from "./AddComment";
 
 // redux
 import { connect } from "react-redux";
@@ -118,6 +119,7 @@ const ScreamDialog = ({ id, userHandle, getScream, scream, ui: { loading }, clas
                                 <span>{scream.commentCount} comments</span>
                             </Grid>
                             <hr className={classes.visibleSeparator} />
+                            <AddComment screamId={scream.screamId} />
                             <Comments comments={scream.comments} />
                         </Grid>
                     )}
