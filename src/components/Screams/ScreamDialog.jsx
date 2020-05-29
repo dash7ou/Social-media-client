@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 
 import LikeScream from "./LikeScream";
+import Comments from "./Comments";
 
 // redux
 import { connect } from "react-redux";
@@ -29,6 +30,11 @@ const styles = {
         border: 'none',
         margin: 4
     },
+    visibleSeparator: {
+        width: '100%',
+        borderBottom: '1px solid rgba(0,0,0,0.1)',
+        marginBottom: 20
+    },
     expandButton:{
         position:"absolute",
         left: '90%'
@@ -45,6 +51,12 @@ const styles = {
     spinnerDiv:{
         textAlign: 'center',
         margin: "15 0"
+    },
+    screamInfo:{
+        padding: 20,
+    },
+    scream:{
+        padding: 20
     }
 }
 
@@ -80,11 +92,11 @@ const ScreamDialog = ({ id, userHandle, getScream, scream, ui: { loading }, clas
                 </Tooltip>
                 <DialogContent className={classes.dialogContent}>
                     { loading ? <div className={classes.spinnerDiv} ><CircularProgress size={200} thickness={2}/> </div>: (
-                        <Grid container spacing={16}>
+                        <Grid container spacing={16} className={classes.scream}>
                             <Grid item sm={5}>
                                 <img src={scream.userImage} alt="profile" className={classes.profileImage} />
                             </Grid>
-                            <Grid item sm={7}>
+                            <Grid item sm={7} className={classes.screamInfo}>
                                 <Typography component={Link} color="primary" variant="h5" to={`/users/${userHandle}`}>
                                     @{scream.userHandle}
                                 </Typography>
@@ -105,6 +117,8 @@ const ScreamDialog = ({ id, userHandle, getScream, scream, ui: { loading }, clas
                                 </Tooltip>
                                 <span>{scream.commentCount} comments</span>
                             </Grid>
+                            <hr className={classes.visibleSeparator} />
+                            <Comments comments={scream.comments} />
                         </Grid>
                     )}
                 </DialogContent>
