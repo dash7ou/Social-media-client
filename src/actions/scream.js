@@ -28,6 +28,26 @@ export const getScreams = _ => async dispatch =>{
     }
 }
 
+export const getScream = id => async dispatch =>{
+    dispatch({
+        type: LOADING_UI,
+        payload: true
+    })
+    try{
+        const res = axios.get(`${process.env.REACT_APP_FUNCTION_URI}/screams/${id}`);
+        dispatch({
+            type: SET_SCREAM,
+            payload: res.data
+        });
+        dispatch({ 
+            type: LOADING_UI,
+            payload: false
+        })
+    }catch(err){
+        console.log(err)
+    }
+}
+
 export const postScream = data => async dispatch =>{
     dispatch({ type: LOADING_UI });
     try{
