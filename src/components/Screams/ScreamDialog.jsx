@@ -1,10 +1,13 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
+
+import LikeScream from "./LikeScream";
 
 // redux
 import { connect } from "react-redux";
 import { getScream } from "../../actions/scream";
+
 
 // MUI
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -20,6 +23,8 @@ import DialogContent from "@material-ui/core/DialogContent";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
+import ChatIcon from "@material-ui/icons/Chat";
+
 
 
 const styles = {
@@ -94,6 +99,14 @@ const ScreamDialog = ({ id, userHandle, getScream, scream, ui: { loading }, clas
                                 <Typography variant="body1">
                                     {scream.body}
                                 </Typography>
+                                <LikeScream scream={scream} screamId={scream.screamId}/>
+                                <span>{scream.likeCount} Likes</span>
+                                <Tooltip title="Comments" placement="top">
+                                    <IconButton className="button">
+                                        <ChatIcon color="primary" />
+                                    </IconButton>
+                                </Tooltip>
+                                <span>{scream.commentCount} comments</span>
                             </Grid>
                         </Grid>
                     )}
@@ -105,7 +118,8 @@ const ScreamDialog = ({ id, userHandle, getScream, scream, ui: { loading }, clas
 
 const mapStateToProps = state => ({
     scream: state.scream.scream,
-    ui: state.ui
+    ui: state.ui,
+    user: state.user.user
 });
 
 export default connect( mapStateToProps, {

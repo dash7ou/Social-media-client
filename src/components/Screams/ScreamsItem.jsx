@@ -5,14 +5,11 @@ import relativeTime from "dayjs/plugin/relativeTime";
 
 import DeleteScream from "./DeleteScream";
 import ScreamDialog from "./ScreamDialog";
+import LikeScream from "./LikeScream";
+
 
 // redux
 import { connect } from "react-redux";
-import {
-    likeScream,
-    unLikeScream,
-    getScreams
-} from "../../actions/scream";
 
 // MUI
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -23,8 +20,6 @@ import Typography from "@material-ui/core/Typography";
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
 import ChatIcon from "@material-ui/icons/Chat";
-import FavoritIcon from "@material-ui/icons/Favorite";
-import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 
 const styles = {
     card: {
@@ -41,57 +36,8 @@ const styles = {
     }
 }
 
-const ScreamsItem = ({ classes,getScreams,scream, scream:{ screamId,likeCount, userImage, userHandle, createdAt, body, commentCount },auth, likeScream, unLikeScream, user })=>{
+const ScreamsItem = ({ classes,scream, scream:{ screamId,likeCount, userImage, userHandle, createdAt, body, commentCount },auth, user })=>{
     dayjs.extend(relativeTime);
-    const [ isLike, setIsLike ] = useState(false)
-    
-    const isLikeScream = ()=>{
-        if(user && user.likes && user.likes.map(scream => scream.screamId).includes(screamId)){
-            setIsLike(true)
-        }else{
-            setIsLike(false)
-        }
-    }
-
-    const likeScreamHandle = async ()=>{
-        try{
-            await likeScream(screamId);
-            await getScreams()
-        }catch(err){}
-    }
-
-    const unLikeScreamHandle = async ()=>{
-        try{
-            await unLikeScream(screamId);
-            await getScreams()
-        }catch(err){}
-    }
-
-    useEffect(()=>{
-        isLikeScream()
-    }, [ scream ])
-
-    const likeButton = !auth ? (
-        <Tooltip title="like" placement="top">
-            <Link to="/login">
-            <IconButton className="button">
-                <FavoriteBorder color="primary" />
-            </IconButton>
-            </Link>
-        </Tooltip>
-    ) : ( isLike ? (
-        <Tooltip title="Un like" placement="top">
-            <IconButton onClick={unLikeScreamHandle} className="button">
-                <FavoritIcon color="primary" />
-            </IconButton>
-        </Tooltip>
-    ): (
-        <Tooltip title="like" placement="top">
-            <IconButton onClick={likeScreamHandle} className="button">
-                <FavoriteBorder color="primary" />
-            </IconButton>
-        </Tooltip>
-    ))
 
     const deleteButton = auth && userHandle === user.credentials.handle && (
         <DeleteScream id={screamId}/>
@@ -104,7 +50,7 @@ const ScreamsItem = ({ classes,getScreams,scream, scream:{ screamId,likeCount, u
                 <Typography component={Link} variant="h5" to={`/users/${userHandle}`} color="primary">{userHandle}</Typography>
                 <Typography variant="body2" color="textSecondary">{dayjs(createdAt).fromNow()}</Typography>
                 <Typography variant="body1">{body}</Typography>
-                {likeButton}
+                <LikeScream screamId={screamId} scream={scream}/>
                 <span>{likeCount} Likes</span>
                 <Tooltip title="Comments" placement="top">
                     <IconButton className="button">
@@ -124,8 +70,4 @@ const mapStateToProps = state =>({
     auth: state.user.authenticated
 })
 
-export default connect(mapStateToProps , {
-    likeScream,
-    unLikeScream,
-    getScreams
-})(withStyles(styles)(ScreamsItem));
+export default connect(mapStateToProps)(withStyles(styles)(ScreamsItem));
