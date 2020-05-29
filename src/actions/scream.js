@@ -8,7 +8,8 @@ import {
     LOADING_UI,
     POST_SCREAM,
     SET_ERRORS,
-    CLEAR_ERRORS
+    CLEAR_ERRORS,
+    SET_SCREAM
 } from "./types";
 
 
@@ -34,7 +35,7 @@ export const getScream = id => async dispatch =>{
         payload: true
     })
     try{
-        const res = axios.get(`${process.env.REACT_APP_FUNCTION_URI}/screams/${id}`);
+        const res = await axios.get(`${process.env.REACT_APP_FUNCTION_URI}/screams/${id}`);
         dispatch({
             type: SET_SCREAM,
             payload: res.data

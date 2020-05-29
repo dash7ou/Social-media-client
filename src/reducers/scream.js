@@ -4,7 +4,8 @@ import {
     LIKE_SCREAMS,
     UNLIKE_SCREAMS,
     DELETE_SCREAM,
-    POST_SCREAM
+    POST_SCREAM,
+    SET_SCREAM
 } from "../actions/types";
 
 const initialState = {
@@ -46,6 +47,11 @@ export default (state = initialState , action)=>{
                     ...state.screams
                 ]
 
+            }
+        case SET_SCREAM:
+            return{
+                ...state,
+                scream: action.payload
             }
         default:
             return state

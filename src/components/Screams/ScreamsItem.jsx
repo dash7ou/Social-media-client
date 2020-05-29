@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 import DeleteScream from "./DeleteScream";
+import ScreamDialog from "./ScreamDialog";
 
 // redux
 import { connect } from "react-redux";
@@ -112,6 +113,7 @@ const ScreamsItem = ({ classes,getScreams,scream, scream:{ screamId,likeCount, u
                 </Tooltip>
                 <span>{commentCount} comments</span>
                 {deleteButton}
+                <ScreamDialog id={screamId} userHandle={userHandle} />
             </CardContent>
         </Card>
     )
