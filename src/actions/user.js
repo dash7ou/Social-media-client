@@ -64,7 +64,7 @@ export const getUserPublic = handle => async dispatch=>{
         });
     }catch(err){
         dispatch({
-            type: SET_SCREAMS,
+            type: SET_USER_PROFILE,
             payload: null
         })
     }

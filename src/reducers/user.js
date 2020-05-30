@@ -63,7 +63,8 @@ export default (state = initialState, action)=>{
         case SET_USER_PROFILE:
             return{
                 ...state,
-                userSelected: action.payload
+                userSelected: action.payload,
+                loading:false
             }
         default:
             return state
