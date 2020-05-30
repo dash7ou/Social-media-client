@@ -76,6 +76,22 @@ export const postScream = data => async dispatch =>{
 
 }
 
+export const addNewComment = (screamId, comment)=> async dispatch=>{
+    try{
+        const res = await axios.post(`${process.env.REACT_APP_FUNCTION_URI}/screams/${screamId}/comment`, comment);
+        dispatch({
+            type: SUBMIT_COMMENT,
+            payload: res.data
+        });
+        dispatch(clearErrors())
+    }catch(err){
+        dispatch({
+            type: SET_ERRORS,
+            payload: err.response.data.error
+        })
+    }
+}
+
 export const likeScream = id => async dispatch =>{
     try{
         const res = await axios.patch(`${process.env.REACT_APP_FUNCTION_URI}/screams/${id}/like`);
