@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 
@@ -8,7 +8,7 @@ import AddComment from "./AddComment";
 
 // redux
 import { connect } from "react-redux";
-import { getScream } from "../../actions/scream";
+import { getScream, clearErrors } from "../../actions/scream";
 
 
 // MUI
@@ -61,7 +61,7 @@ const styles = {
     }
 }
 
-const ScreamDialog = ({ id, userHandle, getScream, scream, ui: { loading }, classes })=>{
+const ScreamDialog = ({ id, userHandle, getScream,clearErrors, scream, ui: { loading }, classes })=>{
     const [ open, setOpen ] = useState(false);
 
     const handleOpen = async ()=>{
@@ -70,7 +70,8 @@ const ScreamDialog = ({ id, userHandle, getScream, scream, ui: { loading }, clas
     }
 
     const handleClose = async ()=>{
-        setOpen(false)
+        setOpen(false);
+        clearErrors()
     }
 
     return (
@@ -136,5 +137,6 @@ const mapStateToProps = state => ({
 });
 
 export default connect( mapStateToProps, {
-    getScream
+    getScream,
+    clearErrors
 })(withStyles(styles)(ScreamDialog));
