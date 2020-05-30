@@ -15,7 +15,9 @@ import Navbar from "./shared/components/Navbar"
 import Signup from "./pages/Signup";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import User from "./pages/User";
 import AuthRoute from "./Router/AuthRoute";
+
 
 import './App.css';
 
@@ -62,6 +64,7 @@ const App = ()=>{
                 <Route exact path="/" component={Home} />
                 <AuthRoute exact path="/signup" component={Signup} />
                 <AuthRoute exact path="/login" component={Login} />
+                <Route exact path="/users/:handle" component={User} />
                 <Redirect to="/"/>
               </Switch>
             </div>
