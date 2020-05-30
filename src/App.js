@@ -65,6 +65,7 @@ const App = ()=>{
                 <AuthRoute exact path="/signup" component={Signup} />
                 <AuthRoute exact path="/login" component={Login} />
                 <Route exact path="/users/:handle" component={User} />
+                <Route exact path="/users/:handle/scream/:screamId" component={User} />
                 <Redirect to="/"/>
               </Switch>
             </div>

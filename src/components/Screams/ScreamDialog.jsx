@@ -61,18 +61,37 @@ const styles = {
     }
 }
 
-const ScreamDialog = ({ id, userHandle, getScream,clearErrors, scream, ui: { loading }, classes })=>{
+const ScreamDialog = ({ id, userHandle, getScream,clearErrors, scream, ui: { loading }, classes, openDialog })=>{
     const [ open, setOpen ] = useState(false);
+    const [ pathes , setPathes ] = useState({
+        newPath: null,
+        oldPath: null
+    })
 
     const handleOpen = async ()=>{
+        let newPath = `/users/${userHandle}/scream/${id}`;
+        let oldPath =  window.location.pathname;
+        setPathes({
+            oldPath,
+            newPath
+        });
+        if(oldPath === newPath) oldPath = `/user/${userHandle}`
+        window.history.pushState(null, null, newPath)
         setOpen(true);
         await getScream(id)
     }
 
     const handleClose = async ()=>{
+        window.history.pushState(null, null, pathes.oldPath)
         setOpen(false);
         clearErrors()
     }
+
+    useEffect(()=>{
+        if(openDialog){
+            handleOpen()
+        }
+    }, [])
 
     return (
         <Fragment>
