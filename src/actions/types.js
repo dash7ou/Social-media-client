@@ -5,6 +5,7 @@ export const LOADING_UI = "LOADING_UI";
 export const SET_AUTH = "SET_AUTH";
 export const SET_UNAUTH = "SET_UNAUTH";
 export const LOADING_USER = 'LOADING_USER';
+export const SET_USER_PROFILE = 'SET_USER_PROFILE';
 
 // screams
 export const SET_SCREAMS = 'SET_SCREAMS';

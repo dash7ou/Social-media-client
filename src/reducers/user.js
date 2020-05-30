@@ -4,13 +4,15 @@ import {
     SET_AUTH,
     LOADING_USER,
     LIKE_SCREAMS,
-    UNLIKE_SCREAMS
+    UNLIKE_SCREAMS,
+    SET_USER_PROFILE
 } from "../actions/types";
 
 const initialState = {
     authenticated: false,
     user: null,
-    loading: false
+    loading: false,
+    userSelected: null
 }
 
 
@@ -57,6 +59,11 @@ export default (state = initialState, action)=>{
                     ...state.user,
                     likes: state.user.likes.filter(scream => scream.screamId !== action.payload.screamId)
                 }
+            }
+        case SET_USER_PROFILE:
+            return{
+                ...state,
+                userSelected: action.payload
             }
         default:
             return state

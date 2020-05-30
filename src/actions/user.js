@@ -6,7 +6,8 @@ import {
     CLEAR_ERRORS,
     LOADING_UI,
     SET_UNAUTH,
-    LOADING_USER
+    LOADING_USER,
+    SET_USER_PROFILE
 } from "./types";
 
 export const login = (userData, history)=> async dispatch =>{
@@ -53,6 +54,21 @@ export const getUserData = ()=> async dispatch =>{
     }
 }
 
+export const getUserPublic = handle => async dispatch=>{
+    dispatch({ type: LOADING_USER })
+    try{
+        const res = await axios.get(`${process.env.REACT_APP_FUNCTION_URI}/users/${handle}`);
+        dispatch({
+            type: SET_USER_PROFILE,
+            payload: res.data
+        });
+    }catch(err){
+        dispatch({
+            type: SET_SCREAMS,
+            payload: null
+        })
+    }
+}
 
 export const signup = (userData, history) => async dispatch =>{
     try {
