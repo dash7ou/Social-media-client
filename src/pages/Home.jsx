@@ -1,5 +1,7 @@
 import React, { useEffect } from "react";
 
+import ScreamSkeleton from "../shared/components/SceamSkelenton"
+
 //redux
 import { connect } from "react-redux";
 import {
@@ -24,7 +26,7 @@ const Home = ({ getScreams, screams, loadingUser })=>{
     return (
         <Grid container spacing={10}>
             <Grid item sm={8} xs={12}>
-                {screams && !loadingUser ? (screams.length > 0 ? (<Screams screams={screams}/>): (<p>No screams until now.</p>)) : (<p>Loading..</p>)}
+                {screams && !loadingUser ? (screams.length > 0 ? (<Screams screams={screams}/>): (<ScreamSkeleton/> )) : (<ScreamSkeleton />)}
             </Grid>
             <Grid item sm={4} xs={12}>
                 <Profile />

@@ -3,7 +3,9 @@ import { useParams } from "react-router-dom";
 
 import StaticProfile from "../components/Profile/StaticProfile";
 import Screams from "../components/Screams/Screams";
-import ScreamDialog from "../components/Screams/ScreamDialog"
+import ScreamDialog from "../components/Screams/ScreamDialog";
+import ScreamSkeleton from "../shared/components/SceamSkelenton"
+
 
 // Redux
 import { connect } from "react-redux";
@@ -36,7 +38,7 @@ const User = ({ user: { userSelected, loading }, getUserPublic })=>{
                 </Grid>
                 { params.screamId && <ScreamDialog id={params.screamId} userHandle={params.handle} openDialog={true}/>}
             </Fragment>
-        ): (<p>loading data...</p>)
+        ): (<ScreamSkeleton />)
     
 }
 
