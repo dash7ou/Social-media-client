@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 
 import EditDetails from "./EditDetails";
+import ProfileSkelenton from "../../shared/components/ProfileSkelenton";
 
 // redux
 import { connect } from 'react-redux';
@@ -156,7 +157,7 @@ const Profile = ({ classes, user: { user: userData, loading, authenticated }, lo
 			</div>
 		</Paper>
 	) : (
-		<p>Loading...</p>
+		<ProfileSkelenton />
 	);
 };
 
