@@ -131,16 +131,16 @@ export const editUserDetaild = (formData) => async dispatch =>{
         await axios.patch(`${process.env.REACT_APP_FUNCTION_URI}/users/me`, formData);
         dispatch(getUserData())
     }catch(err){
-        console.log(err.response.data)
+        console.log(err)
     }
 }
 
 export const markNotificationRead = notifications => async dispatch =>{
     try{
-        const res = await axios.patch(`${process.env.REACT_APP_FUNCTION_URI}/notifications/makeRead`, notifications);
         dispatch({ 
             type: MARK_NOTIFICATION_READ
         });
+        await axios.patch(`${process.env.REACT_APP_FUNCTION_URI}/notifications/makeRead`, {notifications});
     }catch(err){
         console.log(err);
     }

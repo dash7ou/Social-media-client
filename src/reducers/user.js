@@ -72,11 +72,14 @@ export default (state = initialState, action)=>{
                 ...state,
                 user: {
                     ...state.user,
-                    notifications: state.user.notifications.map(noti => {
-                        if(noti.read) return noti;
-                        noti.read = true;
-                        return noti
-                    })
+                    user:{
+                        ...state.user,
+                        notifications: state.user.notifications.forEach(noti => {
+                            if(noti.read) return;
+                            noti.read = true;
+                        })
+                    }
+
                 }
             }
         default:

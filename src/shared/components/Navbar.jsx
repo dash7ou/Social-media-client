@@ -2,7 +2,8 @@ import React, { Fragment } from "react";
 import { Link } from "react-router-dom"
 import { connect } from "react-redux";
 
-import PostScream from "../../components/Screams/PostScream"
+import PostScream from "../../components/Screams/PostScream";
+import Notifications from "../../components/Notification/Notifications"; 
 
 // MUI
 import AppBar from "@material-ui/core/AppBar";
@@ -28,13 +29,7 @@ const Navbar = ({ auth, loading })=>{
                         </IconButton>
                     </Tooltip>
                 </Link>
-                { auth && <Fragment>
-                        <Tooltip title="Notifications" placement="top">
-                            <IconButton className="button">
-                                <NotificationIcon color="primary" />
-                            </IconButton>
-                        </Tooltip>
-                    </Fragment>
+                { auth && <Notifications />
                 }
                 {!auth && <Button color="inherit" component={ Link } to="/login">Login</Button>}
                 </Fragment>

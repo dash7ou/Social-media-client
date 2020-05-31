@@ -35,7 +35,6 @@ const AddComment = ({ screamId,addNewComment, auth,ui: { errors }, classes })=>{
 
     const handleSubmit = async (e)=>{
         e.preventDefault();
-        console.log("here")
         try{
             await addNewComment(screamId, {body})
             setBody("")
