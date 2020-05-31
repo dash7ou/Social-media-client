@@ -6,6 +6,7 @@ export const SET_AUTH = "SET_AUTH";
 export const SET_UNAUTH = "SET_UNAUTH";
 export const LOADING_USER = 'LOADING_USER';
 export const SET_USER_PROFILE = 'SET_USER_PROFILE';
+export const MARK_NOTIFICATION_READ = 'MARK_NOTIFICATION_READ';
 
 // screams
 export const SET_SCREAMS = 'SET_SCREAMS';

@@ -5,7 +5,8 @@ import {
     LOADING_USER,
     LIKE_SCREAMS,
     UNLIKE_SCREAMS,
-    SET_USER_PROFILE
+    SET_USER_PROFILE,
+    MARK_NOTIFICATION_READ
 } from "../actions/types";
 
 const initialState = {
@@ -65,6 +66,18 @@ export default (state = initialState, action)=>{
                 ...state,
                 userSelected: action.payload,
                 loading:false
+            }
+        case MARK_NOTIFICATION_READ:
+            return{
+                ...state,
+                user: {
+                    ...state.user,
+                    notifications: state.user.notifications.map(noti => {
+                        if(noti.read) return noti;
+                        noti.read = true;
+                        return noti
+                    })
+                }
             }
         default:
             return state

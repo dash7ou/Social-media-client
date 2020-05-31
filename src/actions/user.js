@@ -7,7 +7,8 @@ import {
     LOADING_UI,
     SET_UNAUTH,
     LOADING_USER,
-    SET_USER_PROFILE
+    SET_USER_PROFILE,
+    MARK_NOTIFICATION_READ
 } from "./types";
 
 export const login = (userData, history)=> async dispatch =>{
@@ -131,5 +132,16 @@ export const editUserDetaild = (formData) => async dispatch =>{
         dispatch(getUserData())
     }catch(err){
         console.log(err.response.data)
+    }
+}
+
+export const markNotificationRead = notifications => async dispatch =>{
+    try{
+        const res = await axios.patch(`${process.env.REACT_APP_FUNCTION_URI}/notifications/makeRead`, notifications);
+        dispatch({ 
+            type: MARK_NOTIFICATION_READ
+        });
+    }catch(err){
+        console.log(err);
     }
 }
