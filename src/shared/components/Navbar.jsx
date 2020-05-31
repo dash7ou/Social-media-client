@@ -14,10 +14,11 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 
 
-const Navbar = ({ auth })=>{    
+const Navbar = ({ auth, loading })=>{    
     return (
         <AppBar>
             <Toolbar className="nav-container">
+            { !loading && <Fragment> 
                 { auth && <PostScream /> } 
                 {!auth && <Button color="inherit" component={ Link } to="/signup">SignUp</Button>}
                 <Link to="/">
@@ -36,12 +37,15 @@ const Navbar = ({ auth })=>{
                     </Fragment>
                 }
                 {!auth && <Button color="inherit" component={ Link } to="/login">Login</Button>}
+                </Fragment>
+            } 
             </Toolbar>
         </AppBar>
     )
 } 
 
 const mapStateToProps = state =>({
-    auth: state.user.authenticated
+    auth: state.user.authenticated,
+    loading: state.user.loading
 })
 export default connect(mapStateToProps)(Navbar);
