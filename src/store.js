@@ -1,4 +1,5 @@
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 
 import userReducer from "./reducers/user";
@@ -15,6 +16,12 @@ const reducers = combineReducers({
     scream: screamReducer
 });
 
-const store = createStore(reducers, initialState, compose(applyMiddleware(...middleware), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()));
+const store = createStore(reducers, initialState, 
+    composeWithDevTools(
+        applyMiddleware(
+            ...middleware
+        )
+    )
+);
 
 export default store;
